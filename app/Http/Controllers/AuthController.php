@@ -4,7 +4,6 @@ namespace App\Http\Controllers;
 
 use Carbon\Carbon;
 use Illuminate\Http\Request;
-use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Auth;
 use App\User;
 
@@ -72,7 +71,7 @@ class AuthController extends Controller
 		], $remember);
 		
 		if ($authResult) {
-			return redirect()->route('public.index');
+			return redirect()->route('public.profiles.index');
 		} 
 		else {
 			return redirect()
@@ -85,6 +84,15 @@ class AuthController extends Controller
 	public function logout()
 	{
 		Auth::logout();
-		return redirect()->route('public.index');
+		return redirect()->route('public.profiles.index');
 	}
+
+
+	public function conditions()
+    {
+        return view('layouts.single', [
+            'title' => 'Terms and Conditions',
+            'page' => 'pages.conditionsPage',
+        ]);
+    }
 }

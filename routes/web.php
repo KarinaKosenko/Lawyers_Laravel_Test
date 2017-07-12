@@ -1,12 +1,30 @@
 <?php
 
 
-Route::get('/', function () {
-        return view('layouts.single', [
-            'page' => 'pages.index',
-        ]);
-    })
-    ->name('public.index');
+Route::get('/', 'ProfilesController@index')
+    ->name('public.profiles.index');
+
+/**
+ * Routes for working with profiles
+ */
+
+Route::group(['middleware' => 'auth'], function() {
+    Route::get('/edit/{id_user}', 'ProfilesController@edit')
+        ->name('public.profiles.edit');
+
+    Route::post('/edit/{id_user}', 'ProfilesController@editPost')
+        ->name('public.profiles.editPost');
+
+    Route::get('/images/index/{id_user}', 'ImagesController@index')
+        ->name('public.images.index');
+
+    Route::get('/images/show/{path}', 'ImagesController@show')
+        ->name('public.images.show');
+
+    Route::get('/images/delete/{id_user}/{id_upload}', 'ImagesController@delete')
+        ->name('public.images.delete');
+});
+
 
 /**
  * Routes for register and login
@@ -27,9 +45,12 @@ Route::post('/login', 'AuthController@loginPost')
 Route::get('/logout', 'AuthController@logout')
     ->name('public.auth.logout');
 
+Route::get('/conditions', 'AuthController@conditions')
+    ->name('public.auth.conditions');
+
 
 /**
- * Routes for files uploading
+ * Routes for file uploading files
  */
 
 Route::get('/upload/{user_id}', 'UploadsController@upload')
