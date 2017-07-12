@@ -18,40 +18,28 @@ class UploadsController extends Controller
 
     public function uploadPost(Request $request, Uploader $uploader, Upload $uploadModel, $user_id)
     {
-        if ($uploader->validate($request, 'file', config('imagerules'))) {
-            $uploadedPath = $uploader->upload(config('project.imageUploadSection'));
+        for($i = 0; $i < count($request->file); $i++) {
+            if ($uploader->validate($request, $i, config('imagerules'))) {
+                $uploadedPath = $uploader->upload(config('project.imageUploadSection'));
 
-            if ($uploadedPath !== false) {
-                $uploadsModel = $uploader->register($uploadModel, $user_id);
-                $uploadedProps = $uploader->getProps();
+                if ($uploadedPath !== false) {
+                    $uploadsModel = $uploader->register($uploadModel, $user_id);
+                    $uploadedProps = $uploader->getProps();
+                }
+            } else {
+                return view('layouts.single', [
+                    'page' => 'errors.uploadError',
+                    'title' => 'Add Image',
+                    'message' => implode($uploader->getErrors(), '. '),
+                    'user_id' => $user_id,
+                ]);
             }
-        } else {
-            return view('layouts.single', [
-                'page' => 'errors.uploadError',
-                'title' => 'Add Image',
-                'message' => implode($uploader->getErrors(), '. '),
-                'user_id' => $user_id,
-            ]);
         }
 
+        return view('layouts.single', [
+            'page' => 'pages.messagePage',
+            'message' => trans('custom.pending_validation'),
+        ]);
 
-
-        /*if ($uploader->validate($request, 'file', config ('imagerules'))) {
-            $uploadedPath = $uploader->upload( config ('project.imageUploadSection'));
-
-            if ($uploadedPath !== false) {
-                $uploadsModel = $uploader->register($uploadModel, $user_id);
-                $uploadedProps = $uploader->getProps();
-            }
-
-            //return $request->file;
-        }
-        else {
-            return view('layouts.single', [
-                'page' => 'errors.uploadError',
-                'title' => 'Add Image',
-                'message' => implode($uploader->getErrors(), '. '),
-            ]);
-        }*/
     }
 }

@@ -14,14 +14,14 @@ class Uploader
         $uploadPath,
         $validationErrors = [];
 
-    public function validate(Request $request, $file, array $rules = [])
+    public function validate(Request $request, $i, array $rules = [])
     {
         $this->clearState();
         $validationFailed = false;
         $this->request = $request;
 
-        if ($request->hasFile($file) && $request->file($file)->isValid()) {
-            $this->file = $request->file($file);
+        if (in_array($request->file[$i], $request->file) && $request->file[$i]->isValid()) {
+            $this->file = $request->file[$i];
             $this->fillProps();
 
             if (is_array($rules) && count($rules) > 0) {
@@ -29,34 +29,34 @@ class Uploader
                 if(isset($rules['minSize'])) {
                     if ($this->props['size'] < $rules['minSize']) {
                         $validationFailed = true;
-                        $this->validationErrors['minSize'] = 'Минимальный размер загружаемого файла - ' . $rules['minSize'];
+                        $this->validationErrors['minSize'] = trans('custom.file_min_size') . $rules['minSize'];
                     }
                 }
 
                 if(isset($rules['maxSize'])) {
                     if ($this->props['size'] > $rules['maxSize']) {
                         $validationFailed = true;
-                        $this->validationErrors['maxSize'] = 'Максимальный размер загружаемого файла - ' . $rules['maxSize'];
+                        $this->validationErrors['maxSize'] = trans('custom.file_max_size') . $rules['maxSize'];
                     }
                 }
 
                 if(isset($rules['allowedExt']) && is_array($rules['allowedExt']) && count($rules['allowedExt']) > 0) {
                     if (!in_array($this->props['ext'], $rules['allowedExt'])) {
                         $validationFailed = true;
-                        $this->validationErrors['allowedExt'] = 'Разрешены только следующие расширения: ' . implode(', ', $rules['allowedExt']);
+                        $this->validationErrors['allowedExt'] = trans('custom.file_ext') . implode(', ', $rules['allowedExt']);
                     }
                 }
 
                 if(isset($rules['allowedMime']) && is_array($rules['allowedMime']) && count($rules['allowedMime']) > 0) {
                     if (!in_array($this->props['mime'], $rules['allowedMime'])) {
                         $validationFailed = true;
-                        $this->validationErrors['allowedMime'] = 'Разрешены только следующие MIME типы: ' . implode(', ', $rules['allowedMime']);
+                        $this->validationErrors['allowedMime'] = trans('custom.file_mime') . implode(', ', $rules['allowedMime']);
                     }
                 }
             }
         } else {
             $validationFailed = true;
-            $this->validationErrors['invalidUpload'] = 'Загрузка файла не удалась или файл поврежден';
+            $this->validationErrors['invalidUpload'] = trans('custom.invalid_upload');
         }
 
         return !$validationFailed;

@@ -116,6 +116,15 @@ return [
     |
     */
 
-    'attributes' => [],
+    'attributes' => [
+        'name' => '"Name"',
+        'address' => '"Address"',
+        'email' => '"E-mail"',
+        'phone' => '"Mobile Phone"',
+        'birthday' => '"Date of Birth"',
+        'date' => '"Date of Bar Admission"',
+        'password' => '"Password"',
+        'password2' => '"Repeat Password"',
+    ],
 
 ];

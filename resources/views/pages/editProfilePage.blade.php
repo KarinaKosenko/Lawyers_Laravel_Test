@@ -1,9 +1,8 @@
-<strong>Please, read <a href="{{ route('public.auth.conditions') }}">Terms and Conditions.</a></strong><br>
 <form method="post">
     {{ csrf_field() }}
 
     Full Name: *<br>
-    <input type="text" name="name" value="{{ old('name') }}"><br>
+    <input type="text" name="name" value="{{ $user->name }}"><br>
     @if ($errors->has('name'))
         <div class="warning_message">
             <strong> {{ $errors->first('name') }} </strong>
@@ -12,7 +11,7 @@
     <br>
 
     Address: *<br>
-    <input type="text" name="address" value="{{ old('address') }}"><br>
+    <input type="text" name="address" value="{{ $user->address }}"><br>
     @if ($errors->has('address'))
         <div class="warning_message">
             <strong> {{ $errors->first('address') }} </strong>
@@ -21,7 +20,7 @@
     <br>
 
     E-mail: *<br>
-    <input type="text" name="email" value="{{ old('email') }}"><br>
+    <input type="text" name="email" value="{{ $user->email }}"><br>
     @if ($errors->has('email'))
         <div class="warning_message">
             <strong> {{ $errors->first('email') }} </strong><br>
@@ -30,7 +29,7 @@
     <br>
 
     Mobile Phone: *<br>
-    <input type="text" name="phone" value="{{ old('phone') }}"><br>
+    <input type="text" name="phone" value="{{ $user->phone }}"><br>
     @if ($errors->has('phone'))
         <div class="warning_message">
             <strong> {{ $errors->first('phone') }} </strong><br>
@@ -39,7 +38,7 @@
     <br>
 
     Date of Birth: *<br>
-    <input type="text" name="birthday" value="{{ old('birthday') }}"><br>
+    <input type="text" name="birthday" value="{{ $user->birthday }}"><br>
     @if ($errors->has('birthday'))
         <div class="warning_message">
             <strong> {{ $errors->first('birthday') }} </strong><br>
@@ -48,7 +47,7 @@
     <br>
 
     Date of Bar Admission: *<br>
-    <input type="text" name="date" value="{{ old('date') }}"><br>
+    <input type="text" name="date" value="{{ $user->date }}"><br>
     @if ($errors->has('date'))
         <div class="warning_message">
             <strong> {{ $errors->first('date') }} </strong><br>
@@ -70,14 +69,6 @@
     @if ($errors->has('password2'))
         <div class="warning_message">
             <strong> {{ $errors->first('password2') }} </strong><br>
-        </div>
-    @endif
-    <br>
-
-    <input type="checkbox" name="is_confirmed">Accept Terms and Conditions<br>
-    @if ($errors->has('is_confirmed'))
-        <div class="warning_message">
-            <strong> {{ $errors->first('is_confirmed') }} </strong><br>
         </div>
     @endif
     <br>

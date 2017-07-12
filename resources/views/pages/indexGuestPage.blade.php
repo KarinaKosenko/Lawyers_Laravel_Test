@@ -1,8 +1,8 @@
 @section('content')
     <div class="col-lg-12">
         <hr>
-        <h2 class="intro-text text-center">Build a website
-            <strong>worth visiting</strong>
+        <h2 class="intro-text text-center">
+            <strong>About Application</strong>
         </h2>
         <hr>
         <img class="img-responsive img-border img-left" src="img/intro-pic.jpg" alt="">
