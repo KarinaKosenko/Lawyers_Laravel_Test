@@ -7,8 +7,16 @@ use Illuminate\Support\Facades\Auth;
 use App\User;
 use Illuminate\Validation\Rule;
 
+/**
+ * Class ProfilesController - controller for working with users' profiles.
+ */
 class ProfilesController extends Controller
 {
+    /**
+     * Method returns a main page (for guest or registered user).
+     *
+     * @return \Illuminate\Contracts\View\Factory|\Illuminate\View\View
+     */
     public function index()
     {
         if (!Auth::check()){
@@ -24,7 +32,12 @@ class ProfilesController extends Controller
         }
     }
 
-
+    /**
+     * Method returns edit form page for current user.
+     *
+     * @param $id_user
+     * @return \Illuminate\Contracts\View\Factory|\Illuminate\View\View
+     */
     public function edit($id_user)
     {
         $user = User::findOrFail($id_user);
@@ -35,7 +48,13 @@ class ProfilesController extends Controller
         ]);
     }
 
-
+    /**
+     * Method for user validation and editing.
+     *
+     * @param $id_user
+     * @param Request $request
+     * @return \Illuminate\Http\RedirectResponse
+     */
     public function editPost($id_user, Request $request)
     {
         $user = User::findOrFail($id_user);
@@ -50,8 +69,8 @@ class ProfilesController extends Controller
                         'max:200',
                     ],
                 'phone' => 'required|numeric',
-                'birthday' => 'required',
-                'date' => 'required',
+                'birthday' => 'required|date_format:"d-m-Y"',
+                'date' => 'required|date_format:"d-m-Y"',
                 'password' => 'required|max:200|min:6',
                 'password2' => 'required|same:password',
         ]);
