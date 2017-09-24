@@ -8,8 +8,17 @@ use App\Upload;
 use Intervention\Image\Facades\Image;
 use Illuminate\Support\Facades\File;
 
+/**
+ * Class ImagesController - controller for working with images.
+ */
 class ImagesController extends Controller
 {
+    /**
+     * Method for getting user' list of images.
+     *
+     * @param $id_user
+     * @return \Illuminate\Contracts\View\Factory|\Illuminate\View\View
+     */
     public function index($id_user)
     {
         $user = User::findOrFail($id_user);
@@ -22,7 +31,13 @@ class ImagesController extends Controller
         ]);
     }
 
-
+    /**
+     * Method for images deleting.
+     *
+     * @param $id_user
+     * @param $id_upload
+     * @return \Illuminate\Http\RedirectResponse|\Illuminate\Routing\Redirector
+     */
     public function delete($id_user, $id_upload)
     {
         $upload = Upload::findOrFail($id_upload)
@@ -31,7 +46,12 @@ class ImagesController extends Controller
         return redirect('/images/index/' . $id_user);
     }
 
-
+    /**
+     * Method shows one image (using a path from the image link).
+     *
+     * @param $path
+     * @return mixed
+     */
     public function show($path)
     {
         list($imgFile, $ext) = $this->getImagePath($path);
@@ -40,12 +60,17 @@ class ImagesController extends Controller
         return $this->createResponse($img, $ext, 100);
     }
 
+    /**
+     * Service method for getting image path.
+     *
+     * @param $path
+     * @return array
+     */
     protected function getImagePath($path)
     {
         $nameArray = explode('.', $path);
         $ext = array_pop($nameArray);
         $file = str_replace('.', '/', implode('.', $nameArray));
-        //"5/5d8/5d8a1e5b371dd90c0b9064c6c859603d9e640994"
         $filePath = config('project.uploadPath') . config('project.imageUploadSection') . '/' . $file;
 
         if (!File::isFile($filePath)) {
@@ -56,6 +81,14 @@ class ImagesController extends Controller
         return [$filePath, $ext];
     }
 
+    /**
+     * Service method returns image response.
+     *
+     * @param $imgObj
+     * @param string $ext
+     * @param int $quality
+     * @return mixed
+     */
     protected function createResponse($imgObj, $ext = 'jpg', $quality = 75)
     {
         return $imgObj->response($ext, $quality)

@@ -4,6 +4,9 @@ namespace App;
 
 use Illuminate\Database\Eloquent\Model;
 
+/**
+ * Class Upload - a model for working with files uploads.
+ */
 class Upload extends Model
 {
     protected $guarded = [

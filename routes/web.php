@@ -1,13 +1,14 @@
 <?php
 
-
+/**
+ * Route for main page.
+ */
 Route::get('/', 'ProfilesController@index')
     ->name('public.profiles.index');
 
 /**
- * Routes for working with profiles
+ * Routes for working with profiles.
  */
-
 Route::group(['middleware' => 'auth'], function() {
     Route::get('/edit/{id_user}', 'ProfilesController@edit')
         ->name('public.profiles.edit');
@@ -27,9 +28,8 @@ Route::group(['middleware' => 'auth'], function() {
 
 
 /**
- * Routes for register and login
+ * Routes for register and login.
  */
-
 Route::get('/register', 'AuthController@register')
     ->name('public.auth.register');
 
@@ -50,9 +50,8 @@ Route::get('/conditions', 'AuthController@conditions')
 
 
 /**
- * Routes for file uploading files
+ * Routes for file uploading.
  */
-
 Route::get('/upload/{user_id}', 'UploadsController@upload')
     ->name('public.uploads.upload');
 

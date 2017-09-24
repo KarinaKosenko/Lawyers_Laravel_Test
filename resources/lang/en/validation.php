@@ -125,6 +125,7 @@ return [
         'date' => '"Date of Bar Admission"',
         'password' => '"Password"',
         'password2' => '"Repeat Password"',
+        'is_confirmed' => '"Terms and Conditions"',
     ],
 
 ];
